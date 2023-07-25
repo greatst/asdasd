@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Добавляем это для адаптивности -->
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative; /* Добавляем это, чтобы кот не выходил за пределы body */
+      overflow: hidden; /* Добавляем это, чтобы обрезать все, что выходит за пределы body */
+      transition: background-color 1s; /* Добавляем это для плавного перехода фона */
+      background-color: rgba(255, 255, 255, 0.5); /* Делаем начальный фон прозрачным */
+    }
+
+    .btn {
+      padding: 15px 25px;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+      position: relative; /* Добавляем это, чтобы кнопка всегда оставалась по центру */
+      z-index: 1; /* Добавляем это, чтобы кнопка всегда оставалась над котом */
+      transition: background-color 0.5s; /* Добавляем это для плавного перехода кнопки */
+    }
+
+    .btn:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+
+    .cat {
+      position: absolute;
+      height: 100px;
+      width: 100px;
+      transition: top 0.1s, left 0.1s; /* Делаем переход быстрым */
+    }
+  </style>
+</head>
+<body>
+  <button class="btn" id="btn" onclick="showCat()">Нажми</button>
+  <img class="cat" id="cat" src="cat.jpg" style="display: none;" />
+  
+  <script>
+    var cat = document.getElementById("cat");
+    var btn = document.getElementById("btn");
+    var maxX = window.innerWidth - cat.width;
+    var maxY = window.innerHeight - cat.height;
+    var duration = 100;
+    var hide = true;
+    var colors = ["rgba(255, 0, 0, 0.5)", "rgba(255, 127, 0, 0.5)", "rgba(255, 255, 0, 0.5)", "rgba(0, 255, 0, 0.5)", "rgba(0, 0, 255, 0.5)", "rgba(75, 0, 130, 0.5)", "rgba(139, 0, 255, 0.5)"];
+    var colorIndex = 0;
+
+    function showCat() {
+      if(hide) {
+        cat.style.display = "block";
+        hide = false;
+        document.body.style.backgroundColor = colors[colorIndex];
+        setInterval(changeBgColor, 1000);
+        btn.innerText = "О НЕТ ЗАЧЕМ ТЫ НАЖАЛ";
+        btn.style.backgroundColor = "#FF0000"; /* Меняем цвет кнопки на красный при клике */
+      }
+      moveCat();
+    }
+
+    function moveCat() {
+      var newX = Math.floor(Math.random() * maxX);
+      var newY = Math.floor(Math.random() * maxY);
+
+      cat.style.left = newX + "px";
+      cat.style.top = newY + "px";
+
+      setTimeout(moveCat, duration);
+    }
+
+    function changeBgColor() {
+      colorIndex = colorIndex < colors.length - 1 ? colorIndex + 1 : 0;
+      document.body.style.backgroundColor = colors[colorIndex];
+    }
+  </script>
+</body>
+</html>
